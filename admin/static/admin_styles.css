@@ -1,0 +1,81 @@
+﻿/* Стили админки */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f0f2f5;
+}
+
+/* Формы управления товарами */
+.admin-form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    max-width: 500px;
+}
+
+.admin-form input,
+.admin-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.admin-form button {
+    background: #27ae60;
+}
+
+.admin-form button:hover {
+    background: #219a52;
+}
+
+/* Чат администратора */
+.admin-chat .message {
+    background: #e8f4fc;
+    padding: 8px;
+    margin: 5px;
+    border-radius: 4px;
+}
+
+.admin-chat .message.admin {
+    background: #d1f0d1;
+    text-align: right;
+}
+
+/* Таблица товаров */
+.products-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.products-table th,
+.products-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.products-table th {
+    background: #34495e;
+    color: white;
+}
+
+.products-table tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+    .product-card {
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .chat-container {
+        width: 90%;
+        right: 5%;
+    }
+}

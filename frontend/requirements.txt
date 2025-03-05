@@ -1,0 +1,4 @@
+﻿flask==2.0.3
+werkzeug==2.0.3
+ariadne==0.14.0
+flask-socketio==5.1.1

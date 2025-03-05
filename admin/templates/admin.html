@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Админ-панель</title>
+    <style>
+        .chat-container { /* аналогичные стили */ }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_styles.css') }}">
+</head>
+<body>
+    <!-- Формы для управления товарами -->
+    
+    <div class="chat-container">
+        <div id="admin-chat-messages"></div>
+        <input type="text" id="admin-message-input">
+        <button onclick="sendAdminMessage()">Отправить</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        const adminSocket = io('ws://localhost:5000');
+        
+        adminSocket.on('message', (data) => {
+            if(data.role === 'user') {
+                const div = document.createElement('div');
+                div.innerHTML = `<b>Пользователь:</b> ${data.message}`;
+                document.getElementById('admin-chat-messages').appendChild(div);
+            }
+        });
+
+        function sendAdminMessage() {
+            const input = document.getElementById('admin-message-input');
+            adminSocket.emit('message', {
+                role: 'admin',
+                message: input.value
+            });
+            input.value = '';
+        }
+    </script>
+</body>
+</html>

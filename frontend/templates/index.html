@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Магазин</title>
+    <style>
+        /* Стили карточек товаров */
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: white;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div id="products-container"></div>
+    
+    <!-- Чат -->
+    <div class="chat-container">
+        <div id="chat-messages" style="height: 200px; overflow-y: scroll"></div>
+        <input type="text" id="message-input" placeholder="Введите сообщение...">
+        <button onclick="sendMessage()">Отправить</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        // GraphQL запрос
+        const query = `
+            query GetProducts($fields: [String!]!) {
+                products(fields: $fields) {
+                    name
+                    price
+                }
+            }
+        `;
+
+        fetch('/graphql', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                query,
+                variables: {
+                    fields: ['name', 'price']
+                }
+            })
+        })
+        .then(res => res.json())
+        .then(res => {
+            // Отрисовка карточек товаров
+        });
+
+        // WebSocket чат
+        const socket = io('ws://localhost:5000');
+        
+        socket.on('message', (data) => {
+            const div = document.createElement('div');
+            div.innerHTML = `<b>${data.role}:</b> ${data.message}`;
+            document.getElementById('chat-messages').appendChild(div);
+        });
+
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            socket.emit('message', {
+                role: 'user', 
+                message: input.value
+            });
+            input.value = '';
+        }
+    </script>
+</body>
+</html>
